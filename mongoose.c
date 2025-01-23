@@ -266,7 +266,7 @@ static void dns_cb(struct mg_connection *c, int ev, void *ev_data) {
     uint64_t now = *(uint64_t *) ev_data;
     for (d = *head; d != NULL; d = tmp) {
       tmp = d->next;
-      // MG_DEBUG ("%lu %lu dns poll", d->expire, now));
+      MG_DEBUG(("%lu %lu dns poll", d->expire, now));
       if (now > d->expire) mg_error(d->c, "DNS timeout");
     }
   } else if (ev == MG_EV_READ) {
@@ -276,10 +276,10 @@ static void dns_cb(struct mg_connection *c, int ev, void *ev_data) {
       MG_ERROR(("Unexpected DNS response:"));
       mg_hexdump(c->recv.buf, c->recv.len);
     } else {
-      // MG_VERBOSE(("%s %d", dm.name, dm.resolved));
+      MG_VERBOSE(("%s %d", dm.name, dm.resolved));
       for (d = *head; d != NULL; d = tmp) {
         tmp = d->next;
-        // MG_INFO(("d %p %hu %hu", d, d->txnid, dm.txnid));
+        MG_INFO(("d %p %hu %hu", d, d->txnid, dm.txnid));
         if (dm.txnid != d->txnid) continue;
         if (d->c->is_resolving) {
           if (dm.resolved) {
